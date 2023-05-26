@@ -26,12 +26,11 @@ public class ShopContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Card>()
-            .HasOne(u => u.Customer)
-            .WithOne(p => p.Card)
-            .HasForeignKey<Customer>(p => p.CardId);
+        // modelBuilder.Entity<Card>()
+        //     .HasOne(u => u.Customer)
+        //     .WithOne(p => p.Card)
+        //     .HasForeignKey<Customer>(p => p.CardId);
 
-        // Дополнительная конфигурация, если необходимо
 
         base.OnModelCreating(modelBuilder);
     }

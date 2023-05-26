@@ -63,12 +63,12 @@ public class CustomerRepository : ICustomerRepository
             var oldEntity =  await _context.Customers.FirstOrDefaultAsync(x=>x.Id==id);
             oldEntity.Email = entity.Email;
             oldEntity.Password = entity.Password;
-            oldEntity.FirstName = entity.FirstName;
-            oldEntity.LastName = entity.LastName;
+            oldEntity.Nickname = entity.Nickname;
             oldEntity.Balance = entity.Balance;
             oldEntity.Discount = entity.Discount;
-            oldEntity.CardId = entity.CardId;
+            //oldEntity.CardId = entity.CardId;
             oldEntity.Gender = entity.Gender;
+            oldEntity.Role = entity.Role;
             
             await  _context.SaveChangesAsync();
             return true;

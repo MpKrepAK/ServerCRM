@@ -1,5 +1,7 @@
-﻿using CRM_Server_Side.Controllers;
+﻿using AutoMapper;
+using CRM_Server_Side.Controllers;
 using CRM_Server_Side.Models.Database;
+using CRM_Server_Side.Models.Mapping;
 using CRM_Server_Side.Models.Repositories.Implementations;
 using CRM_Server_Side.Models.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +41,13 @@ public class Startup
         services.AddTransient<IVisitedProductsByCustomerRepository, VisitedProductsByCustomerRepository>();
         
         
+        var mapperConfig = new MapperConfiguration(mc =>
+        {
+            mc.AddProfile(new ShopMapper());
+        });
+
+        IMapper mapper = mapperConfig.CreateMapper();
+        services.AddSingleton(mapper);
         
         
         

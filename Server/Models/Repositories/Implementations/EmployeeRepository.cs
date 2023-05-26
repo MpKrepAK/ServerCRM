@@ -62,16 +62,13 @@ public class EmployeeRepository : IEmployeeRepository
         try
         {
             var oldEntity =  await _context.Employees.FirstOrDefaultAsync(x=>x.Id==id);
-            oldEntity.Email = entity.Email;
-            oldEntity.Password = entity.Password;
             oldEntity.FirstName = entity.FirstName;
             oldEntity.LastName = entity.LastName;
-            oldEntity.Role = entity.Role;
+            oldEntity.CustomerId = entity.CustomerId;
             oldEntity.MidleName = entity.MidleName;
             oldEntity.PassportIdentifier = entity.PassportIdentifier;
             oldEntity.Salary = entity.Salary;
             oldEntity.AddressId = entity.AddressId;
-            oldEntity.Gender = entity.Gender;
             
             await  _context.SaveChangesAsync();
             return true;
@@ -83,27 +80,4 @@ public class EmployeeRepository : IEmployeeRepository
         }
     }
 
-    public async Task<Employee?> GetByEmail(string email)
-    {
-        var entity = await _context.Employees.FirstOrDefaultAsync(x=>x.Email==email);
-        return entity;
-    }
-
-    public async Task<Employee?> GetByAuthData(string email, string password)
-    {
-        var entity = await _context.Employees.FirstOrDefaultAsync(x=>x.Email==email&&x.Password==password);
-        return entity;
-    }
-
-    public async Task<List<Employee>?> GetEmployeeListByGender(Genders gender)
-    {
-        var entity = await _context.Employees.Where(x=>x.Gender==gender).ToListAsync();
-        return entity;
-    }
-
-    public async Task<List<Employee>?> GetEmployeeListByRole(EmployeeRoles role)
-    {
-        var entity = await _context.Employees.Where(x=>x.Role==role).ToListAsync();
-        return entity;
-    }
 }
