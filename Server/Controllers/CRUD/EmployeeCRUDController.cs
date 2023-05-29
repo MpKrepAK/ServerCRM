@@ -45,7 +45,7 @@ public class EmployeeCRUDController
             return new BadRequestResult();
         }
     }
-    [HttpPost("{id}")]
+    [HttpPost]
     public async Task<IActionResult> Add(Employee entity)
     {
         bool res = await _employeeRepository.Add(entity);

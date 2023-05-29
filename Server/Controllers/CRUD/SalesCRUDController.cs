@@ -45,7 +45,7 @@ public class SalesCRUDController
             return new BadRequestResult();
         }
     }
-    [HttpPost("{id}")]
+    [HttpPost]
     public async Task<IActionResult> Add(Sales entity)
     {
         bool res = await _salesRepository.Add(entity);

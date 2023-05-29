@@ -45,7 +45,7 @@ public class ProductCRUDController
             return new BadRequestResult();
         }
     }
-    [HttpPost("{id}")]
+    [HttpPost]
     public async Task<IActionResult> Add(Product entity)
     {
         bool res = await _productRepository.Add(entity);

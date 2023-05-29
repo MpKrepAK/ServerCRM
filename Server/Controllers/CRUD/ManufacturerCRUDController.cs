@@ -45,7 +45,7 @@ public class ManufacturerCRUDController
             return new BadRequestResult();
         }
     }
-    [HttpPost("{id}")]
+    [HttpPost]
     public async Task<IActionResult> Add(Manufacturer entity)
     {
         bool res = await _manufacturerRepository.Add(entity);

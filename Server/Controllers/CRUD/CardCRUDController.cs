@@ -45,7 +45,7 @@ public class CardCRUDController
             return new BadRequestResult();
         }
     }
-    [HttpPost("{id}")]
+    [HttpPost]
     public async Task<IActionResult> Add(Card entity)
     {
         bool res = await _cardRepository.Add(entity);

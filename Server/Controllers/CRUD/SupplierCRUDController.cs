@@ -45,7 +45,7 @@ public class SupplierCRUDController
             return new BadRequestResult();
         }
     }
-    [HttpPost("{id}")]
+    [HttpPost]
     public async Task<IActionResult> Add(Supplies entity)
     {
         bool res = await _suppliesRepository.Add(entity);

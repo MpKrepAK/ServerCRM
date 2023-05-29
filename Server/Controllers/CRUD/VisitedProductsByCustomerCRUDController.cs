@@ -45,7 +45,7 @@ public class VisitedProductsByCustomerCRUDController
             return new BadRequestResult();
         }
     }
-    [HttpPost("{id}")]
+    [HttpPost]
     public async Task<IActionResult> Add(VisitedProductsByCustomer entity)
     {
         bool res = await _visitedProducts.Add(entity);

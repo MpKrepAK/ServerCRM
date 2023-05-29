@@ -46,7 +46,7 @@ public class AddressCRUDController
             return new BadRequestResult();
         }
     }
-    [HttpPost("{id}")]
+    [HttpPost]
     public async Task<IActionResult> Add(Address entity)
     {
         bool res = await _addressRepository.Add(entity);
