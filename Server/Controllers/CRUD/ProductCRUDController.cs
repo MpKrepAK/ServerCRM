@@ -84,4 +84,18 @@ public class ProductCRUDController
             return new BadRequestResult();
         }
     }
+    [HttpGet("/page/{id}")]
+    public async Task<IActionResult> GetPage(int id)
+    {
+        try
+        {
+            var list = await _productRepository.GetAll();
+            return new OkObjectResult(list.Skip(id*10-10).Take(10));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return new BadRequestResult();
+        }
+    }
 }
