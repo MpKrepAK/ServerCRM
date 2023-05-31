@@ -42,3 +42,14 @@ D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
 D:\Programming\Projects\Server\Server\bin\Debug\net7.0\System.Security.Permissions.dll
 D:\Programming\Projects\Server\Server\obj\Debug\net7.0\Server.RazorAssemblyInfo.cache
 D:\Programming\Projects\Server\Server\obj\Debug\net7.0\Server.RazorAssemblyInfo.cs
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.Caching.Memory.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.Logging.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.Primitives.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Npgsql.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll

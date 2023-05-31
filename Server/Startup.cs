@@ -23,8 +23,8 @@ public class Startup
         
         services.AddDbContext<ShopContext>(options =>
         {
-            options.UseMySql(Configuration.GetConnectionString("Default"),new MySqlServerVersion(new Version(8, 0, 33)));
-            //options.UseMySql(MySqlServerVersion.AutoDetect(Configuration.GetConnectionString("Default")));
+            //options.UseMySql(Configuration.GetConnectionString("Default"),new MySqlServerVersion(new Version(8, 0, 33)));
+            options.UseNpgsql(Configuration.GetConnectionString("Default"));
         });
 
         services.AddTransient<IAddressRepository, AddressRepository>();
