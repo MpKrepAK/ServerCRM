@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CRM_Server_Side.Models.Database.Entitys;
 
@@ -9,5 +10,6 @@ public class Manufacturer
     [ForeignKey("Address")]
     public long AddressId { get; set; }
     public Address Address { get; set; }
+    [MaxLength(100)]
     public string Email { get; set; }
 }
