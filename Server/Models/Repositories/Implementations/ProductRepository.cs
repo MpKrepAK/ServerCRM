@@ -67,7 +67,7 @@ public class ProductRepository : IProductRepository
             oldEntity.Cost = entity.Cost;
             oldEntity.Image = entity.Image;
             oldEntity.ManufacturerId = entity.ManufacturerId;
-            
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

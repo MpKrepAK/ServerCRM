@@ -1,21 +1,22 @@
-﻿using CRM_Server_Side.Models.Database.Entitys;
+﻿using CRM_Server_Side.Models.Database;
+using CRM_Server_Side.Models.Database.Entitys;
 using CRM_Server_Side.Models.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM_Server_Side.Controllers;
 
 [ApiController]
 [Route("addreses")]
-public class AddressCRUDController
+public class AddressCRUDController : ControllerBase
 {
     private readonly ILogger<CardItemCRUDController> _logger;
-    private readonly IAddressRepository _addressRepository;
-    
-    public AddressCRUDController(ILogger<CardItemCRUDController> logger, IAddressRepository addressRepository)
+    private readonly ShopContext _context;
+    public AddressCRUDController(ILogger<CardItemCRUDController> logger, ShopContext context)
     {
         _logger = logger;
-        _addressRepository = addressRepository;
+        _context = context;
     }
 
     [HttpGet]
@@ -23,12 +24,12 @@ public class AddressCRUDController
     {
         try
         {
-            var list = await _addressRepository.GetAll();
+            var list = await _context.Addresses.ToListAsync<Address>();
             return new OkObjectResult(list);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
@@ -37,66 +38,74 @@ public class AddressCRUDController
     {
         try
         {
-            var list = await _addressRepository.GetById(id);
-            return new OkObjectResult(list);
+            var entity = await _context.Addresses.FirstOrDefaultAsync(x=>x.Id==id);
+            return new OkObjectResult(entity);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
     [HttpPost]
     public async Task<IActionResult> Add(Address entity)
     {
-        bool res = await _addressRepository.Add(entity);
-        if (res)
+        if (!ModelState.IsValid)
         {
-            return new OkResult();
+            _logger.LogError(ModelState.ErrorCount.ToString());
+            return BadRequest(ModelState);
         }
-        else
+        try
         {
+            _context.Addresses.Add(entity);
+            await  _context.SaveChangesAsync();
+            return new OkObjectResult(entity);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
-    [HttpPatch("{id}")]
-    public async Task<IActionResult> Update(int id, Address address)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, Address entity)
     {
-        bool res = await _addressRepository.Update(id, address);
-        if (res)
+        if (!ModelState.IsValid)
         {
-            return new OkResult();
+            _logger.LogError(ModelState.ErrorCount.ToString());
+            return BadRequest(ModelState);
         }
-        else
+        try
         {
+            var oldEntity =  await _context.Addresses.FirstOrDefaultAsync(x=>x.Id==id);
+            oldEntity.Country = entity.Country;
+            oldEntity.City = entity.City;
+            oldEntity.Street = entity.Street;
+            oldEntity.Number = entity.Number;
+            _context.Update(oldEntity);
+            await  _context.SaveChangesAsync();
+            return new OkObjectResult(entity);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        bool res = await _addressRepository.Delete(id);
-        if (res)
+        try
         {
-            return new OkResult();
+            var entity =  await _context.Addresses.FirstOrDefaultAsync(x=>x.Id==id);
+            _context.Addresses.Remove(entity);
+            await _context.SaveChangesAsync();
+            return new OkObjectResult(entity);
         }
-        else
+        catch (Exception e)
         {
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
-    // [HttpGet("Page/{id}")]
-    // public async Task<IActionResult> GetPage(int id)
-    // {
-    //     try
-    //     {
-    //         var list = await _addressRepository.GetAll();
-    //         return new OkObjectResult(list.Skip((id-1)*12).Take(12));
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         Console.WriteLine(e);
-    //         return new BadRequestResult();
-    //     }
-    // }
 }

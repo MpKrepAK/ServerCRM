@@ -63,7 +63,7 @@ public class ManufacturerRepository : IManufacturerRepository
             var oldEntity =  await _context.Manufacturers.FirstOrDefaultAsync(x=>x.Id==id);
             oldEntity.Email = entity.Email;
             oldEntity.AddressId = entity.AddressId;
-            
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

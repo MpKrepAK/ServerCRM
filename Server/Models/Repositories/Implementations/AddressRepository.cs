@@ -60,11 +60,13 @@ public class AddressRepository : IAddressRepository
     {
         try
         {
+            Console.WriteLine(entity.City);
             var oldEntity =  await _context.Addresses.FirstOrDefaultAsync(x=>x.Id==id);
             oldEntity.Country = entity.Country;
             oldEntity.City = entity.City;
             oldEntity.Street = entity.Street;
             oldEntity.Number = entity.Number;
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

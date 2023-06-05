@@ -24,6 +24,12 @@ public class ShopContext : DbContext
         //Database.EnsureDeleted();
         Database.EnsureCreated();
     }
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    // {
+    //     
+    //     optionsBuilder.UseLazyLoadingProxies().UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    //
+    // }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // modelBuilder.Entity<Card>()

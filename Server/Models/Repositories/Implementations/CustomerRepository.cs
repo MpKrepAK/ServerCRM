@@ -64,12 +64,11 @@ public class CustomerRepository : ICustomerRepository
             oldEntity.Email = entity.Email;
             oldEntity.Password = entity.Password;
             oldEntity.Nickname = entity.Nickname;
-            oldEntity.Balance = entity.Balance;
             oldEntity.Discount = entity.Discount;
             //oldEntity.CardId = entity.CardId;
             oldEntity.Gender = entity.Gender;
             oldEntity.Role = entity.Role;
-            
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

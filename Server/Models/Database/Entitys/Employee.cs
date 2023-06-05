@@ -9,7 +9,7 @@ public class Employee
     public long Id { get; set; }
     [ForeignKey("Customer")]
     public long CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public virtual Customer? Customer { get; set; }
     [MaxLength(20)]
     public string FirstName { get; set; }
     [MaxLength(20)]
@@ -21,5 +21,5 @@ public class Employee
     public decimal Salary { get; set; }
     [ForeignKey("Address")]
     public long AddressId { get; set; }
-    public Address Address { get; set; }
+    public virtual Address? Address { get; set; }
 }

@@ -64,6 +64,7 @@ public class CardItemRepository : ICardItemRepository
             oldEntity.Count = entity.Count;
             oldEntity.ProductId = entity.ProductId;
             oldEntity.Date = entity.Date;
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

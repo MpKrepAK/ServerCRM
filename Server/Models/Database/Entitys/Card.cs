@@ -7,6 +7,6 @@ public class Card
     public long Id { get; set; }
     [ForeignKey("Customer")]
     public long CustomerId { get; set; }
-    public Customer? Customer { get; set; }
-    public List<CardItem> CardItems { get; set; }
+    public virtual Customer? Customer { get; set; }
+    public virtual List<CardItem>? CardItems { get; set; }
 }

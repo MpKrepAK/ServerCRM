@@ -8,11 +8,11 @@ public class Sales
     public DateTime IssueDate { get; set; }
     [ForeignKey("Customer")]
     public long CustomerId { get; set; }
-    public Customer Customer { get; set; }
+    public virtual Customer? Customer { get; set; }
     [ForeignKey("Product")]
     public long ProductId { get; set; }
-    public Product Product { get; set; }
+    public virtual Product? Product { get; set; }
     [ForeignKey("Address")]
     public long AddressId { get; set; }
-    public Address Address { get; set; }
+    public virtual Address? Address { get; set; }
 }

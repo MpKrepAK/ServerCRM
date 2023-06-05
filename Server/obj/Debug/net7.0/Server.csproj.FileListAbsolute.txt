@@ -53,3 +53,6 @@ D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.Opti
 D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.Extensions.Primitives.dll
 D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Npgsql.dll
 D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Castle.Core.dll
+D:\Programming\Projects\Server\Server\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Proxies.dll

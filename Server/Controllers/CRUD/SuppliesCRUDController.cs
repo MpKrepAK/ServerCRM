@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 namespace CRM_Server_Side.Controllers;
 
 [ApiController]
-[Route("visited")]
-public class VisitedProductsByCustomerCRUDController : ControllerBase
+[Route("supplies")]
+public class SuppliesCRUDController : ControllerBase
 {
-    private readonly ILogger<VisitedProductsByCustomerCRUDController> _logger;
+    private readonly ILogger<SuppliesCRUDController> _logger;
     private readonly ShopContext _context;
     
-    public VisitedProductsByCustomerCRUDController(ILogger<VisitedProductsByCustomerCRUDController> logger, ShopContext context)
+    public SuppliesCRUDController(ILogger<SuppliesCRUDController> logger, ShopContext context)
     {
         _logger = logger;
         _context = context;
@@ -24,8 +24,8 @@ public class VisitedProductsByCustomerCRUDController : ControllerBase
     {
         try
         {
-            var list = await _context.VisitedProductsByCustomers.
-                Include(x=>x.Customer)
+            var list = await _context.Supplies
+                .Include(x=>x.Employee)
                 .Include(x=>x.Product)
                 .ToListAsync();
             return new OkObjectResult(list);
@@ -41,8 +41,8 @@ public class VisitedProductsByCustomerCRUDController : ControllerBase
     {
         try
         {
-            var list = await _context.VisitedProductsByCustomers.
-                Include(x=>x.Customer)
+            var list = await _context.Supplies
+                .Include(x=>x.Employee)
                 .Include(x=>x.Product)
                 .FirstOrDefaultAsync(x=>x.Id == id);
             return new OkObjectResult(list);
@@ -54,36 +54,37 @@ public class VisitedProductsByCustomerCRUDController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<IActionResult> Add(VisitedProductsByCustomer entity)
+    public async Task<IActionResult> Add(Supplies entity)
     {
         try
         {
-            _context.VisitedProductsByCustomers.Add(entity);
+            _context.Supplies.Add(entity);
             await  _context.SaveChangesAsync();
             return new OkObjectResult(entity);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, VisitedProductsByCustomer entity)
+    public async Task<IActionResult> Update(int id, Supplies entity)
     {
         try
         {
-            var oldEntity =  await _context.VisitedProductsByCustomers.FirstOrDefaultAsync(x=>x.Id==id);
+            var oldEntity =  await _context.Supplies.FirstOrDefaultAsync(x=>x.Id==id);
             oldEntity.ProductId = entity.ProductId;
-            oldEntity.CustomerId = entity.CustomerId;
+            oldEntity.Count = entity.Count;
             oldEntity.Date = entity.Date;
+            oldEntity.EmployeeId = entity.EmployeeId;
             _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return new OkObjectResult(oldEntity);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
@@ -92,14 +93,14 @@ public class VisitedProductsByCustomerCRUDController : ControllerBase
     {
         try
         {
-            var entity =  await _context.VisitedProductsByCustomers.FirstOrDefaultAsync(x=>x.Id==id);
-            _context.VisitedProductsByCustomers.Remove(entity);
+            var entity =  await _context.Supplies.FirstOrDefaultAsync(x=>x.Id==id);
+            _context.Supplies.Remove(entity);
             await _context.SaveChangesAsync();
             return new OkObjectResult(entity);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }

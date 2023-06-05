@@ -64,7 +64,8 @@ public class ProductInfoRepository : IProductInfoRepository
             var oldEntity =  await _context.ProductInfos.FirstOrDefaultAsync(x=>x.Id==id);
             oldEntity.Name = entity.Name;
             oldEntity.Value = entity.Value;
-            
+            oldEntity.ProductId = entity.ProductId;
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

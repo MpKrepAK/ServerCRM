@@ -69,7 +69,7 @@ public class EmployeeRepository : IEmployeeRepository
             oldEntity.PassportIdentifier = entity.PassportIdentifier;
             oldEntity.Salary = entity.Salary;
             oldEntity.AddressId = entity.AddressId;
-            
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

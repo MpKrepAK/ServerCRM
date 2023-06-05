@@ -62,6 +62,7 @@ public class CardRepository : ICardRepository
         {
             var oldEntity =  await _context.Cards.FirstOrDefaultAsync(x=>x.Id==id);
             oldEntity.CustomerId = entity.CustomerId;
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

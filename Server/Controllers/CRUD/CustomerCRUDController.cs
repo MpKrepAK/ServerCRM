@@ -1,20 +1,21 @@
-﻿using CRM_Server_Side.Models.Database.Entitys;
+﻿using CRM_Server_Side.Models.Database;
+using CRM_Server_Side.Models.Database.Entitys;
 using CRM_Server_Side.Models.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM_Server_Side.Controllers;
 
 [ApiController]
 [Route("customers")]
-public class CustomerCRUDController
+public class CustomerCRUDController : ControllerBase
 {
     private readonly ILogger<CustomerCRUDController> _logger;
-    private readonly ICustomerRepository _customerRepository;
-    
-    public CustomerCRUDController(ILogger<CustomerCRUDController> logger, ICustomerRepository customerRepository)
+    private readonly ShopContext _context;
+    public CustomerCRUDController(ILogger<CustomerCRUDController> logger, ShopContext context)
     {
         _logger = logger;
-        _customerRepository = customerRepository;
+        _context = context;
     }
     
     [HttpGet]
@@ -22,12 +23,12 @@ public class CustomerCRUDController
     {
         try
         {
-            var list = await _customerRepository.GetAll();
+            var list = await _context.Customers.ToListAsync();
             return new OkObjectResult(list);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
@@ -36,51 +37,76 @@ public class CustomerCRUDController
     {
         try
         {
-            var list = await _customerRepository.GetById(id);
+            var list = await _context.Customers.FirstOrDefaultAsync(x=>x.Id == id);
             return new OkObjectResult(list);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
     [HttpPost]
     public async Task<IActionResult> Add(Customer entity)
     {
-        bool res = await _customerRepository.Add(entity);
-        if (res)
+        if (!ModelState.IsValid)
         {
-            return new OkResult();
+            _logger.LogError(ModelState.ErrorCount.ToString());
+            return BadRequest(ModelState);
         }
-        else
+        try
         {
+            _context.Customers.Add(entity);
+            await  _context.SaveChangesAsync();
+            return new OkObjectResult(entity);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
-    [HttpPatch("{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, Customer entity)
     {
-        bool res = await _customerRepository.Update(id, entity);
-        if (res)
+        if (!ModelState.IsValid)
         {
-            return new OkResult();
+            _logger.LogError(ModelState.ErrorCount.ToString());
+            return BadRequest(ModelState);
         }
-        else
+        try
         {
+            var oldEntity =  await _context.Customers.FirstOrDefaultAsync(x=>x.Id==id);
+            oldEntity.Email = entity.Email;
+            oldEntity.Password = entity.Password;
+            oldEntity.Nickname = entity.Nickname;
+            oldEntity.Discount = entity.Discount;
+            //oldEntity.CardId = entity.CardId;
+            oldEntity.Gender = entity.Gender;
+            oldEntity.Role = entity.Role;
+            _context.Update(oldEntity);
+            await _context.SaveChangesAsync();
+            return new OkObjectResult(oldEntity);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        bool res = await _customerRepository.Delete(id);
-        if (res)
+        try
         {
-            return new OkResult();
+            var entity =  await _context.Customers.FirstOrDefaultAsync(x=>x.Id==id);
+            _context.Customers.Remove(entity);
+            await _context.SaveChangesAsync();
+            return new OkObjectResult(entity);
         }
-        else
+        catch (Exception e)
         {
+            _logger.LogError(e.Message);
             return new BadRequestResult();
         }
     }

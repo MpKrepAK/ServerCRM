@@ -65,7 +65,7 @@ public class SalesRepository : ISalesRepository
             oldEntity.CustomerId = entity.CustomerId;
             oldEntity.ProductId = entity.ProductId;
             oldEntity.AddressId = entity.AddressId;
-            
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

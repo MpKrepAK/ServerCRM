@@ -65,7 +65,7 @@ public class SuppliesRepository : ISuppliesRepository
             oldEntity.Count = entity.Count;
             oldEntity.Date = entity.Date;
             oldEntity.EmployeeId = entity.EmployeeId;
-            
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

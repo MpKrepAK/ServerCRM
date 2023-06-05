@@ -11,11 +11,11 @@ public class Product
     public string Description { get; set; }
     [ForeignKey("Type")]
     public long TypeId { get; set; }
-    public ProductType Type { get; set; }
+    public virtual ProductType? Type { get; set; }
     public decimal Cost { get; set; }
-    public byte[] Image { get; set; }
+    public byte[]? Image { get; set; }
     [ForeignKey("Manufacturer")]
     public long ManufacturerId { get; set; }
-    public Manufacturer Manufacturer { get; set; }
-    public List<ProductInfo> InfoList { get; set; }
+    public virtual Manufacturer? Manufacturer { get; set; }
+    public virtual List<ProductInfo>? InfoList { get; set; }
 }

@@ -64,7 +64,7 @@ public class VisitedProductsByCustomerRepository : IVisitedProductsByCustomerRep
             oldEntity.ProductId = entity.ProductId;
             oldEntity.CustomerId = entity.CustomerId;
             oldEntity.Date = entity.Date;
-            
+            _context.Update(oldEntity);
             await  _context.SaveChangesAsync();
             return true;
         }

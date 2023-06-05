@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
+using CRM_Server_Side.Models.Database;
 using CRM_Server_Side.Models.Database.Entitys;
 using CRM_Server_Side.Models.Database.Entitys.Enums;
 using CRM_Server_Side.Models.Mapping.Entitys;
@@ -7,6 +8,7 @@ using CRM_Server_Side.Models.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM_Server_Side.Controllers.Authorization;
 
@@ -15,12 +17,12 @@ namespace CRM_Server_Side.Controllers.Authorization;
 public class AuthController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly ICustomerRepository _customerRepository;
+    private readonly ShopContext _context;
 
-    public AuthController(IMapper mapper, ICustomerRepository customerRepository)
+    public AuthController(IMapper mapper, ShopContext context)
     {
         _mapper = mapper;
-        _customerRepository = customerRepository;
+        _context = context;
     }
     
     [HttpPost("register")]
@@ -30,12 +32,18 @@ public class AuthController : ControllerBase
         {
             return BadRequest(ModelState);
         }
+        var cust = await _context.Customers.FirstOrDefaultAsync(x => x.Email == model.Email);
+        if (cust!=null)
+        {
+            return BadRequest();
+        }
 
         Customer mapped = _mapper.Map<Customer>(model);
-        mapped.DateOfRegistration = DateTime.Now;
+        mapped.DateOfRegistration = DateTime.Now.ToUniversalTime();
         mapped.Role = Roles.User;
-        _customerRepository.Add(mapped);
         
+        _context.Customers.Add(mapped);
+        await _context.SaveChangesAsync();
         return Ok("Регистрация прошла успешно");
     }
     
@@ -48,7 +56,7 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        Customer customer = await _customerRepository.GetByAuthData(model.Email,model.Password);
+        Customer customer = await _context.Customers.FirstOrDefaultAsync(x=>x.Email==model.Email&&x.Password==model.Password);
         
         if (customer == null)
         {
